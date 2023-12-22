@@ -9,16 +9,16 @@ const LoginPage = () => {
 
   const login = () => {
     // Uncomment the line below once you have the authentication logic
-    context.authenticate(userName, password);
+    // context.authenticate(userName, password);
   };
 
   let location = useLocation();
   const { from } = location.state || { from: "/" };
 
   // Uncomment the lines below once you have the authentication logic
-  if (context.isAuthenticated) {
-    return <Navigate to={from} />;
-  }
+  // if (context.isAuthenticated) {
+  //   return <Navigate to={from} />;
+  // }
 
   return (
     <div
