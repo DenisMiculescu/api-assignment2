@@ -50,19 +50,19 @@ async function registerUser(req, res) {
 }
 
 // Authenticates user
-async function authenticateUser(req, res) {
-    const user = await User.findByUserName(req.body.username);
-    if (!user) {
-        return res.status(401).json({ success: false, msg: 'Authentication failed. User not found.' });
-    }
+// async function authenticateUser(req, res) {
+//     const user = await User.findByUserName(req.body.username);
+//     if (!user) {
+//         return res.status(401).json({ success: false, msg: 'Authentication failed. User not found.' });
+//     }
 
-    const isMatch = await user.comparePassword(req.body.password);
-    if (isMatch) {
-        const token = jwt.sign({ username: user.username }, process.env.SECRET);
-        res.status(200).json({ success: true, token: 'BEARER ' + token });
-    } else {
-        res.status(401).json({ success: false, msg: 'Wrong password.' });
-    }
-}
+//     const isMatch = await user.comparePassword(req.body.password);
+//     if (isMatch) {
+//         const token = jwt.sign({ username: user.username }, process.env.SECRET);
+//         res.status(200).json({ success: true, token: 'BEARER ' + token });
+//     } else {
+//         res.status(401).json({ success: false, msg: 'Wrong password.' });
+//     }
+// }
 
 export default router;

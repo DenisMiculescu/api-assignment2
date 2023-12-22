@@ -1,15 +1,12 @@
-export const getMovies = () => {
-  return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
+export const getMovies = async () => {
+  const response = await fetch(
+    'http://localhost:8080/api/movies', {
+    headers: {
+      'Authorization': window.localStorage.getItem('token')
     }
-    return response.json();
-  })
-  .catch((error) => {
-     throw error
-  });
+  }
+  )
+  return response.json();
 };
   
 export const getMovie = (args) => {
@@ -34,8 +31,7 @@ export const getRec = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `
-    https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.REACT_APP_TMDB_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.REACT_APP_TMDB_KEY}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
@@ -91,23 +87,20 @@ export const getRec = (args) => {
       });
   };
 
-  export const getUpcomingMovies = () => {
-    return fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=b6eb39fda4d341dbdd801ba012e88191&language=en-US&page=1`
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.json().message);
+  export const getUpcomingMovies = async () => {
+    const response = await fetch(
+      'http://localhost:8080/api/movies/tmdb/upcoming', {
+      headers: {
+        'Authorization': window.localStorage.getItem('token')
       }
-      return response.json();
-    })
-    .catch((error) => {
-       throw error
-    });
+    }
+    )
+    return response.json();
   };
 
   export const getTopRatedMovies = () => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      `http://localhost:8080/api/movies/tmdb/top_rated`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
@@ -121,7 +114,7 @@ export const getRec = (args) => {
 
   export const getMoviesInCinema = () => {
     return fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_TMDB_KEY}`
+      `http://localhost:8080/api/movies/tmdb/now_showing`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);
@@ -160,3 +153,25 @@ export const getRec = (args) => {
        throw error
     });
   };
+
+  export const login = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
+
+export const signup = async (username, password) => {
+    const response = await fetch('http://localhost:8080/api/users?action=register', {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'post',
+        body: JSON.stringify({ username: username, password: password })
+    });
+    return response.json();
+};
